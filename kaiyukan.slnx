@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="kaiyukan.vcxproj" Id="93bda2b9-2457-46fb-b575-f31e05845c97" />
+</Solution>
