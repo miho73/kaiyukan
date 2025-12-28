@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "targetver.h"
-
 #include <windows.h>
 
 // C RunTime Header Files

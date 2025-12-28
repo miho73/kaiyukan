@@ -35,7 +35,6 @@
     <ClInclude Include="include\framework.h" />
     <ClInclude Include="include\jellyfish.h" />
     <ClInclude Include="include\kaiyukan.h" />
-    <ClInclude Include="include\targetver.h" />
     <ClInclude Include="include\vector.h" />
     <ClInclude Include="include\window_motion.h" />
     <ClInclude Include="resource.h" />
