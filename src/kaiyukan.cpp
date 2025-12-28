@@ -103,13 +103,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
   int screenWidth = GetSystemMetrics(SM_CXSCREEN);
   int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-  DWORD dwExStyle = WS_EX_LAYERED | WS_EX_TOPMOST;
+  DWORD dwExStyle = WS_EX_LAYERED | WS_EX_TOPMOST | WS_EX_TOOLWINDOW;
 
   // 경계없는 전체화면 윈도우 생성
   HWND hWnd = CreateWindowExW(
 	dwExStyle,
 	szWindowClass, szTitle, WS_POPUP,
-	0, 0, JELLYFISH_SIZE, JELLYFISH_SIZE,
+	(screenWidth - JELLYFISH_SIZE) / 2, (screenHeight - JELLYFISH_SIZE) / 2,
+	JELLYFISH_SIZE, JELLYFISH_SIZE,
 	nullptr, nullptr, hInstance, nullptr
   );
 
@@ -127,21 +128,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
   switch (message) {
-	case WM_CREATE:
-	{
+	case WM_CREATE: {
 	  SetTimer(hWnd, OVERLAY_TIMER_ID, 1000 / FPS, NULL); // 30 FPS 새로고침 주기
+	  break;
 	}
-	break;
 
-	case WM_COMMAND:
-	{
+	case WM_COMMAND: {
 	  int wmId = LOWORD(wParam);
+	  handleMenuCommand(hWnd, wParam);
 	  return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-	break;
 
-	case WM_PAINT:
-	{
+	case WM_PAINT: {
 	  PAINTSTRUCT ps;
 	  HDC hdc = BeginPaint(hWnd, &ps);
 
@@ -151,28 +149,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	  DrawOverlayContent(hdc, clientRect);
 
 	  EndPaint(hWnd, &ps);
+	  break;
 	}
-	break;
 
-	case WM_TIMER:
-	{
+	case WM_TIMER: {
 	  UpdateGifAnimation();
 	  MotionWindowUpdate(hWnd);
 	  InvalidateRect(hWnd, NULL, FALSE);
+	  break;
 	}
-	break;
 
-	case WM_LBUTTONDOWN:
-	MotionWindowDown(hWnd);
-	break;
+	case WM_LBUTTONDOWN: {
+	  MotionWindowDown(hWnd);
+	  break;
+	}
 
-	case WM_LBUTTONUP:
-	MotionWindowUp();
-	break;
+	case WM_LBUTTONUP: {
+	  MotionWindowUp();
+	  break;
+	}
 
-	case WM_MOUSEMOVE:
-	MotionWindowMove(hWnd);
-	break;
+	case WM_MOUSEMOVE: {
+	  MotionWindowMove(hWnd);
+	  break;
+	}
+
+	case WM_RBUTTONUP: {
+	  showDialog(hWnd);
+	  break;
+	}
 
 	case WM_DESTROY:
 	KillTimer(hWnd, OVERLAY_TIMER_ID);

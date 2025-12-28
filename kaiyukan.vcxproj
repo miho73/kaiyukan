@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\dialog.cpp" />
     <ClCompile Include="src\jellyfish.cpp" />
     <ClCompile Include="src\kaiyukan.cpp" />
     <ClCompile Include="src\window_motion.cpp" />
@@ -30,6 +31,7 @@
     <Image Include="assets\small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\dialog.h" />
     <ClInclude Include="include\framework.h" />
     <ClInclude Include="include\jellyfish.h" />
     <ClInclude Include="include\kaiyukan.h" />
@@ -153,6 +155,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

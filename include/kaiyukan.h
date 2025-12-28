@@ -8,3 +8,4 @@
 #include "../resource.h"
 #include "jellyfish.h"
 #include "window_motion.h"
+#include "dialog.h"

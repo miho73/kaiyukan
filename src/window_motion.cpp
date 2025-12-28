@@ -5,7 +5,7 @@
 bool isDragging = false;				// 드래그 중인지 여부
 POINT initMousePos = { 0, 0 };			// 초기 마우스 위치
 VECTOR velocity(0.0f, 0.0f);			// 속도 벡터
-VECTOR heading(0.0f, 1.0f);				// 헤딩 벡터
+VECTOR heading(0.0f, -1.0f);				// 헤딩 벡터
 float omega = 0.0f;						// 각속도
 ULONGLONG dragStartTime = 0;			// 드래그 시작 시간
 const float B_COEFF = 2.85f;			// 항력 계수
