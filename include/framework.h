@@ -1,12 +1,7 @@
-// header.h : include file for standard system include files,
-// or project specific include files
-//
-
-#pragma once
+﻿#pragma once
 
 #include "targetver.h"
 
-// Windows Header Files
 #include <windows.h>
 
 // C RunTime Header Files
@@ -14,9 +9,13 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <iostream>
 
 // GDI+ Header File
 #include <gdiPlus.h>
 #pragma comment (lib, "gdiplus.lib")
+
+// math
+#include "vector.h"
 
 using namespace Gdiplus;

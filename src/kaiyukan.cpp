@@ -21,43 +21,43 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 // PURPOSE: 애플리케이션의 진입점 및 주 메시지 루프를 처리
 //
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+					  _In_opt_ HINSTANCE hPrevInstance,
+					  _In_ LPWSTR    lpCmdLine,
+					  _In_ int       nCmdShow)
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+  UNREFERENCED_PARAMETER(hPrevInstance);
+  UNREFERENCED_PARAMETER(lpCmdLine);
 
-	// 윈도우 정보 초기화
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_KAIYUKAN, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+  // 윈도우 정보 초기화
+  LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+  LoadStringW(hInstance, IDC_KAIYUKAN, szWindowClass, MAX_LOADSTRING);
+  MyRegisterClass(hInstance);
 
-	// GDI+ 초기화
-	GdiplusStartupInput gdiplusStartupInput;
-    if (GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL) != Ok)
-        return FALSE;
+  // GDI+ 초기화
+  GdiplusStartupInput gdiplusStartupInput;
+  if (GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL) != Ok)
+	return FALSE;
 
-    // 윈도우 초기화
-    if (!InitInstance (hInstance, nCmdShow))
-        return FALSE;
+  // 윈도우 초기화
+  if (!InitInstance(hInstance, nCmdShow))
+	return FALSE;
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_KAIYUKAN));
+  HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_KAIYUKAN));
 
-    MSG msg;
+  MSG msg;
 
-    // 메인 메시지 루프
-    while (GetMessage(&msg, nullptr, 0, 0)) {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
+  // 메인 메시지 루프
+  while (GetMessage(&msg, nullptr, 0, 0)) {
+	if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
+	  TranslateMessage(&msg);
+	  DispatchMessage(&msg);
+	}
+  }
 
-	// GDI+ 종료
-	GdiplusShutdown(gdiplusToken);
+  // GDI+ 종료
+  GdiplusShutdown(gdiplusToken);
 
-    return (int) msg.wParam;
+  return (int)msg.wParam;
 }
 
 
@@ -67,24 +67,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //  PURPOSE: 윈도우 클래스 등록
 //
 ATOM MyRegisterClass(HINSTANCE hInstance) {
-    WNDCLASSEXW wcex;
+  WNDCLASSEXW wcex;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+  wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
+  wcex.style = CS_HREDRAW | CS_VREDRAW;
+  wcex.lpfnWndProc = WndProc;
+  wcex.cbClsExtra = 0;
+  wcex.cbWndExtra = 0;
+  wcex.hInstance = hInstance;
 
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_KAIYUKAN));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground  = CreateSolidBrush(BG_COLOR);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_KAIYUKAN);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL));
+  wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_KAIYUKAN));
+  wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+  wcex.hbrBackground = CreateSolidBrush(BG_COLOR);
+  wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_KAIYUKAN);
+  wcex.lpszClassName = szWindowClass;
+  wcex.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+  return RegisterClassExW(&wcex);
 }
 
 
@@ -94,93 +94,93 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 //   PURPOSE: 매인 윈도우 생성 및 표시
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
-   hInst = hInstance; // 인스턴스 핸들 전역변수로 보내기
+  hInst = hInstance; // 인스턴스 핸들 전역변수로 보내기
 
-   // 리소스 로드
-   LoadOverlayImage();
+  // 리소스 로드
+  LoadOverlayImage();
 
-   // 화면 크기 얻기
-   int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-   int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+  // 화면 크기 얻기
+  int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+  int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-   DWORD dwExStyle = WS_EX_LAYERED | WS_EX_TOPMOST;
+  DWORD dwExStyle = WS_EX_LAYERED | WS_EX_TOPMOST;
 
-   // 경계없는 전체화면 윈도우 생성
-   HWND hWnd = CreateWindowExW(
-	   dwExStyle,
-       szWindowClass, szTitle, WS_POPUP,
-       0, 0, JELLYFISH_SIZE, JELLYFISH_SIZE,
-       nullptr, nullptr, hInstance, nullptr
-   );
+  // 경계없는 전체화면 윈도우 생성
+  HWND hWnd = CreateWindowExW(
+	dwExStyle,
+	szWindowClass, szTitle, WS_POPUP,
+	0, 0, JELLYFISH_SIZE, JELLYFISH_SIZE,
+	nullptr, nullptr, hInstance, nullptr
+  );
 
-   if (!hWnd)
-      return FALSE;
+  if (!hWnd)
+	return FALSE;
 
-   SetLayeredWindowAttributes(hWnd, BG_COLOR, 0, LWA_COLORKEY);
+  SetLayeredWindowAttributes(hWnd, BG_COLOR, 0, LWA_COLORKEY);
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+  ShowWindow(hWnd, nCmdShow);
+  UpdateWindow(hWnd);
 
-   return TRUE;
+  return TRUE;
 }
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
-    switch (message) {
-    case WM_CREATE:
-    {
-		SetTimer(hWnd, OVERLAY_TIMER_ID, 1000/FPS, NULL); // 30 FPS 새로고침 주기
-    }
-    break;
+  switch (message) {
+	case WM_CREATE:
+	{
+	  SetTimer(hWnd, OVERLAY_TIMER_ID, 1000 / FPS, NULL); // 30 FPS 새로고침 주기
+	}
+	break;
 
-    case WM_COMMAND:
-    {
-        int wmId = LOWORD(wParam);
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    break;
+	case WM_COMMAND:
+	{
+	  int wmId = LOWORD(wParam);
+	  return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	break;
 
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
+	case WM_PAINT:
+	{
+	  PAINTSTRUCT ps;
+	  HDC hdc = BeginPaint(hWnd, &ps);
 
-		RECT clientRect;
-		GetClientRect(hWnd, &clientRect);
+	  RECT clientRect;
+	  GetClientRect(hWnd, &clientRect);
 
-		DrawOverlayContent(hdc, clientRect);
+	  DrawOverlayContent(hdc, clientRect);
 
-        EndPaint(hWnd, &ps);
-    }
-    break;
+	  EndPaint(hWnd, &ps);
+	}
+	break;
 
-    case WM_TIMER:
-    {
-        UpdateGifAnimation();
-        MotionWindowUpdate(hWnd);
-        InvalidateRect(hWnd, NULL, FALSE);
-    }
-    break;
+	case WM_TIMER:
+	{
+	  UpdateGifAnimation();
+	  MotionWindowUpdate(hWnd);
+	  InvalidateRect(hWnd, NULL, FALSE);
+	}
+	break;
 
-    case WM_LBUTTONDOWN:
-        MotionWindowDown(hWnd);
-    break;
+	case WM_LBUTTONDOWN:
+	MotionWindowDown(hWnd);
+	break;
 
-    case WM_LBUTTONUP:
-		MotionWindowUp();
-		break;
+	case WM_LBUTTONUP:
+	MotionWindowUp();
+	break;
 
 	case WM_MOUSEMOVE:
-		MotionWindowMove(hWnd);
-		break;
+	MotionWindowMove(hWnd);
+	break;
 
-    case WM_DESTROY:
-		KillTimer(hWnd, OVERLAY_TIMER_ID);
-        PostQuitMessage(0);
-        break;
+	case WM_DESTROY:
+	KillTimer(hWnd, OVERLAY_TIMER_ID);
+	PostQuitMessage(0);
+	break;
 
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
+	default:
+	return DefWindowProc(hWnd, message, wParam, lParam);
+  }
+  return 0;
 }
